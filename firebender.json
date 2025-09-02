@@ -1,14 +1,15 @@
 {
   "commands": [
     {
-      "name": "quick question",
+      "name": "qq",
       "path": "./quick-question/command.md",
+      "model": "fast",
       "mode": "read"
     },
     {
       "name": "review pr",
       "path": "./review-pr/command.md",
-      "model": "opus",
+      "model": "claude-3.5-sonnet",
       "mode": "read"
     },
     {
