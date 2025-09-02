@@ -1,0 +1,28 @@
+{
+  "commands": [
+    {
+      "name": "quick question",
+      "path": "./quick-question/command.md",
+      "model": "fast",
+      "mode": "read"
+    },
+    {
+      "name": "review pr",
+      "path": "./review-pr/command.md",
+      "model": "claude-3.5-sonnet",
+      "mode": "read"
+    },
+    {
+      "name": "update changelog",
+      "path": "./update-changelog/command.md",
+      "model": "gpt-4.1",
+      "mode": "write"
+    },
+    {
+      "name": "create design doc",
+      "path": "./create-design-doc/command.md",
+      "model": "claude-sonnet-4-20250514",
+      "mode": "write"
+    }
+  ]
+}
