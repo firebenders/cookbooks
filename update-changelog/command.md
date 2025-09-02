@@ -1,21 +1,39 @@
 # Update Changelog Command
 
-Generate consistent changelog entries based on recent changes and commits.
+Generate consistent changelog entries based on commits since the last release.
 
 ## Instructions
 
-Analyze recent code changes and create properly formatted changelog entries. Follow these guidelines:
+Follow this systematic approach to update the changelog:
 
-### Change Analysis
+### Step 1: Find Last Release Commit
 
-- **Review git history**: Examine recent commits since the last release or changelog update
-- **Categorize changes**: Group changes by type (features, fixes, improvements, breaking changes)
-- **Identify impact**: Determine user-facing vs. internal changes
-- **Extract key information**: Pull out relevant details from commit messages and code changes
+- **Search for release tags**: Use `git tag --sort=-version:refname` to find the most recent release tag
+- **Identify release commit**: Use `git log --oneline --grep="release\|bump\|version"` to find release commits
+- **Fallback to changelog**: If no clear release commit, examine the existing CHANGELOG.md to determine the last
+  documented release date and find the corresponding commit
 
-### Changelog Format
+### Step 2: Analyze Changes Since Last Release
 
-Use semantic changelog formatting with these categories:
+- **Get commit range**: Use `git log <last-release-commit>..HEAD --oneline` to see all commits since the last release
+- **Review detailed changes**: Use `git log <last-release-commit>..HEAD --pretty=format:"%h %s%n%b"` for full commit
+  messages
+- **Examine file changes**: Use `git diff <last-release-commit>..HEAD --name-only` to see which files were modified
+- **Categorize commits**: Group changes by type (features, fixes, improvements, breaking changes)
+
+### Step 3: Reference Existing Changelog Style
+
+- **Read current CHANGELOG.md**: Study the last 2-3 entries to understand:
+    - Entry length and level of detail
+    - Writing style and tone
+    - Technical depth vs. user-friendly language
+    - How similar changes were previously described
+- **Match established patterns**: Follow the same format, terminology, and level of detail
+- **Maintain consistency**: Use similar phrasing for similar types of changes
+
+### Step 4: Generate User-Focused Entries
+
+Follow the project's changelog format with these categories:
 
 - **Added**: New features and functionality
 - **Changed**: Changes in existing functionality
@@ -26,19 +44,38 @@ Use semantic changelog formatting with these categories:
 
 ### Entry Guidelines
 
-- **User-focused**: Write entries from the user's perspective
-- **Clear and concise**: Use simple, descriptive language
-- **Actionable**: Include migration notes for breaking changes
-- **Consistent format**: Follow established project conventions
-- **Proper versioning**: Use semantic versioning (major.minor.patch)
+- **User-focused**: Write from the user's perspective, not developer's
+- **Concise but informative**: Match the brevity style of existing entries
+- **Skip internal changes**: Omit refactoring, test updates, and other non-user-facing changes unless they impact
+  performance or behavior
+- **Group related changes**: Combine similar commits into single, coherent entries
+- **Use active voice**: "Added new feature" not "New feature was added"
 
-### Output Requirements
+### Step 5: Version and Format Output
 
-1. Determine the appropriate version number based on change types
-2. Generate changelog entries in the project's established format
-3. Include dates and version headers
-4. Add migration notes for breaking changes
-5. Preserve existing changelog history
+1. **Determine version bump**:
+    - Major: Breaking changes
+    - Minor: New features (backward compatible)
+    - Patch: Bug fixes only
+2. **Use project's date format**: Follow existing changelog date formatting
+3. **Maintain structure**: Keep the same heading levels and markdown formatting
+4. **Position correctly**: Add new entry at the top, below any "Unreleased" section
+
+## Example Workflow Commands
+
+```bash
+# Find the last release tag
+git tag --sort=-version:refname | head -5
+
+# Get commits since last release
+git log v1.2.0..HEAD --oneline
+
+# See detailed commit messages
+git log v1.2.0..HEAD --pretty=format:"%h %s%n%b%n"
+
+# Check what files changed
+git diff v1.2.0..HEAD --name-only
+```
 
 ## Example Output Format
 
@@ -60,3 +97,4 @@ Use semantic changelog formatting with these categories:
 ### Deprecated
 - Legacy authentication method (will be removed in v2.0)
 ```
+
